@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "cnb_exchange_rate",
+  "version": "0.0.1",
+  "description": "Transcribe ČNB XML to JSON",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write '**/*.{js,css,json,md}'"
+  },
+  "author": "Petr Severa <petr@severa.name>",
+  "license": "The Unlicense",
+  "devDependencies": {
+    "prettier": "^1.18.2"
+  }
+}
