@@ -1,4 +1,4 @@
-name = "cnb_exchange_rate"
+name = "cnb-exchange-rate"
 type = "javascript"
 account_id = "768b24cfe552d96b69d58f27b2e18a09"
 workers_dev = true
