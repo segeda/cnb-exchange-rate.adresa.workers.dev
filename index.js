@@ -34,6 +34,7 @@ async function handleRequest() {
     headers: {
       "content-type": "application/json;charset=UTF-8",
       'access-control-allow-origin': '*',
+      'cnb-exchange-rate': 'json',
     },
   })
 }
