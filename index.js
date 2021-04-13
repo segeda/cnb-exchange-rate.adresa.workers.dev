@@ -1,5 +1,7 @@
 const XML_URL =
   'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.xml'
+const TXT_URL =
+  'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt'
 
 const kurzy = {}
 
@@ -23,9 +25,7 @@ class RadekElementHandler {
   }
 }
 
-async function handleRequest(request) {
-  const { search } = new URL(request.url)
-
+async function handleJSON(search) {
   const response = await fetch(XML_URL + search)
   await new HTMLRewriter()
     .on('kurzy', new KurzyElementHandler())
@@ -40,6 +40,22 @@ async function handleRequest(request) {
       'cnb-exchange-rate': 'json',
     },
   })
+}
+
+async function handleRequest(request) {
+  const { pathname, search } = new URL(request.url)
+
+  if (pathname === '/xml') {
+  }
+  switch (pathname) {
+    case '/xml':
+      return fetch(XML_URL + search)
+    case '/txt':
+      return fetch(TXT_URL + search)
+    case '/json':
+    default:
+      return handleJSON(search)
+  }
 }
 
 addEventListener('fetch', event => {

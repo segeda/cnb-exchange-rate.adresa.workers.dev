@@ -1,8 +1,8 @@
 {
   "private": true,
   "name": "cnb_exchange_rate",
-  "version": "0.0.2",
-  "description": "Transcribe ČNB XML to JSON",
+  "version": "0.0.3",
+  "description": "ČNB Exchange Rates in XML, TXT or JSON",
   "main": "index.js",
   "scripts": {
     "format": "prettier --write '**/*.{js,css,json,md}'"

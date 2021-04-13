@@ -1,6 +1,6 @@
-# ČNB Exchange Rate
+# ČNB Exchange Rates
 
-Transcribe ČNB Exchange Rate from XML to JSON
+ČNB Exchange Rates in XML, TXT or JSON
 
 `index.js` is the content of the Workers script.
 
