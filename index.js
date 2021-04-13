@@ -1,7 +1,5 @@
-const XML_URL =
-  'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.xml'
-const TXT_URL =
-  'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.txt'
+const BASE_URL =
+  'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz'
 
 const kurzy = {}
 
@@ -25,36 +23,48 @@ class RadekElementHandler {
   }
 }
 
-async function handleJSON(search) {
-  const response = await fetch(XML_URL + search)
+async function handleJSON(request) {
+  const { search } = new URL(request.url)
+
+  const response = await fetch(BASE_URL + '.xml' + search, request)
   await new HTMLRewriter()
     .on('kurzy', new KurzyElementHandler())
     .on('radek', new RadekElementHandler())
     .transform(response)
     .arrayBuffer()
 
-  return new Response(JSON.stringify(kurzy), {
-    headers: {
-      'content-type': 'application/json;charset=UTF-8',
-      'access-control-allow-origin': '*',
-      'cnb-exchange-rate': 'json',
-    },
-  })
+  const jsonResponse = new Response(JSON.stringify(kurzy), response)
+  jsonResponse.headers.set('content-type', 'application/json;charset=UTF-8')
+
+  return mutateResponse(jsonResponse)
+}
+
+function mutateResponse(response) {
+  const mutableResponse = new Response(response.body, response)
+  mutableResponse.headers.delete('x-frame-options')
+  mutableResponse.headers.set('access-control-allow-origin', '*')
+  mutableResponse.headers.set('author', 'Petr Severa <petr@severa.name>')
+  mutableResponse.headers.set(
+    'repository',
+    'https://github.com/segeda/cnb-exchange-rate.adresa.workers.dev',
+  )
+
+  return mutableResponse
 }
 
 async function handleRequest(request) {
   const { pathname, search } = new URL(request.url)
 
-  if (pathname === '/xml') {
-  }
   switch (pathname) {
     case '/xml':
-      return fetch(XML_URL + search)
+      const xmlResponse = await fetch(BASE_URL + '.xml' + search, request)
+      return mutateResponse(xmlResponse)
     case '/txt':
-      return fetch(TXT_URL + search)
+      const txtResponse = await fetch(BASE_URL + '.txt' + search, request)
+      return mutateResponse(txtResponse)
     case '/json':
     default:
-      return handleJSON(search)
+      return handleJSON(request)
   }
 }
 

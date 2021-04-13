@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "cnb_exchange_rate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "ČNB Exchange Rates in XML, TXT or JSON",
   "main": "index.js",
   "scripts": {
