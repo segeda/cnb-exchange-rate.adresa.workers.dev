@@ -1,4 +1,4 @@
-const url =
+const XML_URL =
   'https://www.cnb.cz/cs/financni-trhy/devizovy-trh/kurzy-devizoveho-trhu/kurzy-devizoveho-trhu/denni_kurz.xml'
 
 const kurzy = {}
@@ -26,7 +26,7 @@ class RadekElementHandler {
 async function handleRequest(request) {
   const { search } = new URL(request.url)
 
-  const response = await fetch(url + search)
+  const response = await fetch(XML_URL + search)
   await new HTMLRewriter()
     .on('kurzy', new KurzyElementHandler())
     .on('radek', new RadekElementHandler())
